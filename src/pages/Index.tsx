@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import DraggableWord from '@/components/DraggableWord';
 import ImageDropZone from '@/components/ImageDropZone';
@@ -9,119 +9,65 @@ import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
 import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX, Play } from 'lucide-react';
 import { useAudio } from '@/hooks/useAudio';
-import { resolveMediaUrl } from '@/lib/utils';
+import { getSupabaseUrl } from '@/lib/utils';
 
+// Dados dos níveis configurados para o Supabase
+// Nota: Você deve fazer upload das imagens para o bucket 'game-assets'
 const LEVELS_DATA = [
   {
     id: 1,
-    question: "Arrasta as palavras para os copos certos!",
+    question: "Vazio ou Cheio?",
     pairs: [
-      { 
-        word: "VAZIO", 
-        targetId: "vazio", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/5e4ec9e7d27791fba3d61f4f40d0c60e.png" 
-      },
-      { 
-        word: "CHEIO", 
-        targetId: "cheio", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/590251b5c6986ab4865abfb4c63fdfae.png" 
-      }
+      { word: "VAZIO", targetId: "vazio", image: "copo_vazio.png" },
+      { word: "CHEIO", targetId: "cheio", image: "copo_cheio.png" }
     ]
   },
   {
     id: 2,
-    question: "Quem é a nova e quem é a velha?",
+    question: "Nova ou Velha?",
     pairs: [
-      { 
-        word: "NOVA", 
-        targetId: "nova", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/b0128978a4ef2a7590550cb78a328b60.png" 
-      },
-      { 
-        word: "VELHA", 
-        targetId: "velha", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/cbaa12aba022b90c8b66795905b21f56.png" 
-      }
+      { word: "NOVA", targetId: "nova", image: "pessoa_nova.png" },
+      { word: "VELHA", targetId: "velha", image: "pessoa_velha.png" }
     ]
   },
   {
     id: 3,
-    question: "Como se sente a Alice?",
+    question: "Feliz ou Triste?",
     pairs: [
-      { 
-        word: "FELIZ", 
-        targetId: "feliz", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/852057a7f5032217a65416b23a13fb5a.png" 
-      },
-      { 
-        word: "TRISTE", 
-        targetId: "triste", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/815fabbf4652e02b3e1faa9942d1f7e8.png" 
-      }
+      { word: "FELIZ", targetId: "feliz", image: "alice_feliz.png" },
+      { word: "TRISTE", targetId: "triste", image: "alice_triste.png" }
     ]
   },
   {
     id: 4,
-    question: "Quem está perto e quem está longe?",
+    question: "Perto ou Longe?",
     pairs: [
-      { 
-        word: "PERTO", 
-        targetId: "perto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/1bc9efbbed2c06befd6e3f329ed06351.jpg" 
-      },
-      { 
-        word: "LONGE", 
-        targetId: "longe", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/73c3f0dd092aff084297b40f75916966.jpg" 
-      }
+      { word: "PERTO", targetId: "perto", image: "perto.jpg" },
+      { word: "LONGE", targetId: "longe", image: "longe.jpg" }
     ]
   },
   {
     id: 5,
-    question: "Quem é alto e quem é baixo?",
+    question: "Alto ou Baixo?",
     pairs: [
-      { 
-        word: "ALTO", 
-        targetId: "alto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/eff9cb527b4e1656978a87de07b532e7.jpg" 
-      },
-      { 
-        word: "BAIXO", 
-        targetId: "baixo", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a23e62200473fe4f153a140fb61903b6.jpg" 
-      }
+      { word: "ALTO", targetId: "alto", image: "alto.jpg" },
+      { word: "BAIXO", targetId: "baixo", image: "baixo.jpg" }
     ]
   },
   {
     id: 6,
-    question: "Qual é o cabelo longo e qual é o curto?",
+    question: "Longo ou Curto?",
     pairs: [
-      { 
-        word: "LONGO", 
-        targetId: "longo", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/0bec8a1d9fa5134f97e87c5d7ab1cfa7.jpg" 
-      },
-      { 
-        word: "CURTO", 
-        targetId: "curto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a46acbb4dd59329cbf618885284ec168.jpg" 
-      }
+      { word: "LONGO", targetId: "longo", image: "cabelo_longo.jpg" },
+      { word: "CURTO", targetId: "curto", image: "cabelo_curto.jpg" }
     ]
   },
   {
     id: 7,
-    question: "O livro está aberto ou fechado?",
+    question: "Aberto ou Fechado?",
     pairs: [
-      { 
-        word: "ABERTO", 
-        targetId: "aberto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/8160c2b71e429b18d52d2c32fbd7795c.jpg" 
-      },
-      { 
-        word: "FECHADO", 
-        targetId: "fechado", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/ae9bd54b20ea44966cfe039d434b5503.jpg" 
-      }
+      { word: "ABERTO", targetId: "aberto", image: "livro_aberto.jpg" },
+      { word: "FECHADO", targetId: "fechado", image: "livro_fechado.jpg" }
     ]
   }
 ];
@@ -140,7 +86,6 @@ const Index = () => {
   const [shuffledLevels, setShuffledLevels] = useState<typeof LEVELS_DATA>([]);
   const [currentLevelIdx, setCurrentLevelIdx] = useState(0);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({});
-  const [dropZones, setDropZones] = useState<Record<string, DOMRect>>({});
   const [gameState, setGameState] = useState<'start' | 'playing' | 'finished'>('start');
   const [score, setScore] = useState(0);
 
@@ -152,9 +97,9 @@ const Index = () => {
 
   const displayPairs = useMemo(() => {
     if (!currentLevel) return [];
-    return shuffle(currentLevel.pairs).map(pair => ({
-      ...pair,
-      image: resolveMediaUrl(pair.image)
+    return shuffle(currentLevel.pairs).map(p => ({
+      ...p,
+      image: getSupabaseUrl(p.image)
     }));
   }, [currentLevel]);
 
@@ -163,58 +108,40 @@ const Index = () => {
     return shuffle(currentLevel.pairs);
   }, [currentLevel]);
 
-  const handleMeasure = useCallback((id: string, rect: DOMRect) => {
-    setDropZones(prev => ({ ...prev, [id]: rect }));
-  }, []);
-
   const startGame = () => {
     setGameState('playing');
     playBg();
   };
 
   const handleDragEnd = (word: string, info: any) => {
-    const dropPoint = { x: info.point.x, y: info.point.y };
-    
-    let foundTarget = null;
-    for (const [id, rect] of Object.entries(dropZones)) {
-      if (
-        dropPoint.x >= rect.left && 
-        dropPoint.x <= rect.right && 
-        dropPoint.y >= rect.top && 
-        dropPoint.y <= rect.bottom
-      ) {
-        foundTarget = id;
-        break;
-      }
-    }
+    // Deteção de colisão ultra-estável usando coordenadas do ecrã
+    const element = document.elementFromPoint(info.point.x, info.point.y);
+    const dropZone = element?.closest('[data-target-id]');
+    const foundTargetId = dropZone?.getAttribute('data-target-id');
 
-    if (foundTarget) {
-      const pair = currentLevel.pairs.find(p => p.targetId === foundTarget);
+    if (foundTargetId) {
+      const pair = currentLevel.pairs.find(p => p.targetId === foundTargetId);
+      
       if (pair && pair.word === word) {
         if (!assignments[word]) {
-          const newAssignments = { ...assignments, [word]: foundTarget };
+          const newAssignments = { ...assignments, [word]: foundTargetId };
           setAssignments(newAssignments);
           playSuccess();
           showSuccess(`Muito bem!`);
           
           if (Object.keys(newAssignments).length === currentLevel.pairs.length) {
             setScore(prev => prev + 20);
-            confetti({
-              particleCount: 150,
-              spread: 70,
-              origin: { y: 0.6 }
-            });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             
             setTimeout(() => {
               if (currentLevelIdx < shuffledLevels.length - 1) {
                 setCurrentLevelIdx(prev => prev + 1);
                 setAssignments({});
-                setDropZones({});
               } else {
                 playVictory();
                 setGameState('finished');
               }
-            }, 2000);
+            }, 1500);
           }
         }
       } else {
@@ -224,16 +151,6 @@ const Index = () => {
     }
   };
 
-  const resetGame = () => {
-    setShuffledLevels(shuffle(LEVELS_DATA));
-    setCurrentLevelIdx(0);
-    setAssignments({});
-    setGameState('playing');
-    setScore(0);
-    setDropZones({});
-    playBg();
-  };
-
   if (gameState === 'start') {
     return (
       <div className="min-h-screen bg-sky-50 flex flex-col items-center justify-center p-6 text-center">
@@ -241,10 +158,7 @@ const Index = () => {
           <Sparkles className="w-24 h-24 text-yellow-400 mx-auto mb-6" />
           <h1 className="text-4xl font-black text-slate-800 mb-4">Jogo dos Opostos</h1>
           <p className="text-xl text-slate-600 mb-8 font-bold">Estás pronto para aprender a brincar?</p>
-          <Button 
-            onClick={startGame}
-            className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg"
-          >
+          <Button onClick={startGame} className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg">
             <Play className="mr-3 fill-current" /> COMEÇAR
           </Button>
         </div>
@@ -260,10 +174,7 @@ const Index = () => {
           <h1 className="text-5xl font-black text-slate-800 mb-4">UAU!</h1>
           <p className="text-2xl text-slate-600 mb-8 font-bold">Estás de parabéns!</p>
           <div className="text-4xl font-black text-blue-600 mb-8">Pontos: {score}</div>
-          <Button 
-            onClick={resetGame}
-            className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg"
-          >
+          <Button onClick={() => window.location.reload()} className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg">
             <RefreshCcw className="mr-3" /> JOGAR OUTRA VEZ
           </Button>
         </div>
@@ -276,25 +187,15 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-sky-50 py-8 px-4 flex flex-col items-center overflow-hidden">
       <div className="max-w-4xl w-full relative">
-        <button 
-          onClick={toggleMute}
-          className="absolute -top-4 right-4 p-3 bg-white rounded-full shadow-md hover:bg-slate-50 transition-colors z-50 border-2 border-slate-100"
-        >
+        <button onClick={toggleMute} className="absolute -top-4 right-4 p-3 bg-white rounded-full shadow-md z-50 border-2 border-slate-100">
           {isMuted ? <VolumeX className="text-slate-400" /> : <Volume2 className="text-blue-500" />}
         </button>
 
-        <GameHeader 
-          currentLevel={currentLevelIdx + 1} 
-          totalLevels={shuffledLevels.length} 
-          score={score} 
-        />
+        <GameHeader currentLevel={currentLevelIdx + 1} totalLevels={shuffledLevels.length} score={score} />
 
         <div className="text-center mb-8">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-2 flex items-center justify-center gap-3">
-            <Sparkles className="text-yellow-400" />
-            {currentLevel.question}
-          </h2>
-          <p className="text-slate-500 font-bold">Arrasta as palavras coloridas para as imagens!</p>
+          <h2 className="text-3xl md:text-4xl font-black text-slate-800 mb-2">{currentLevel.question}</h2>
+          <p className="text-slate-500 font-bold">Arrasta as palavras para as imagens!</p>
         </div>
 
         <div className="grid grid-cols-2 gap-6 md:gap-12 max-w-3xl mx-auto mb-12">
@@ -303,9 +204,8 @@ const Index = () => {
               key={`${currentLevel.id}-${pair.targetId}`}
               id={pair.targetId}
               imageSrc={pair.image}
-              onMeasure={handleMeasure}
-              isCorrect={!!assignments[pair.word]}
-              assignedWord={assignments[pair.word] ? pair.word : null}
+              isCorrect={Object.values(assignments).includes(pair.targetId)}
+              assignedWord={Object.keys(assignments).find(key => assignments[key] === pair.targetId)}
             />
           ))}
         </div>

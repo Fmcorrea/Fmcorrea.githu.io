@@ -6,17 +6,15 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Resolve URLs do protocolo dyad-media:// para URLs HTTPS acessíveis pelo navegador.
+ * Gera a URL pública para um arquivo no Supabase Storage.
+ * Substitua 'game-assets' pelo nome do seu bucket se for diferente.
  */
-export function resolveMediaUrl(url: string): string {
-  if (!url) return "";
+export function getSupabaseUrl(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
   
-  if (url.startsWith("dyad-media://")) {
-    const parts = url.split("/");
-    const fileName = parts[parts.length - 1];
-    // Formato padrão de API para assets do projeto
-    return `https://api.dyad.sh/v1/projects/peaceful-shiba-flip/media/${fileName}`;
-  }
+  const PROJECT_ID = "dsqrtngwglvkvcpdilfm";
+  const BUCKET = "game-assets"; // Certifique-se de que o bucket é público
   
-  return url;
+  return `https://${PROJECT_ID}.supabase.co/storage/v1/object/public/${BUCKET}/${path}`;
 }
