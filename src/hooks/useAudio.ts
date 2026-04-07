@@ -10,46 +10,55 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    // Nova música de fundo: Happy Arcade/Game style
-    bgMusic.current = new Audio("https://cdn.pixabay.com/audio/2024/05/04/audio_74307d8843.mp3");
-    bgMusic.current.loop = true;
-    bgMusic.current.volume = 0.5; // Volume aumentado
+    const initAudio = (url: string, volume = 1, loop = false) => {
+      const audio = new Audio(url);
+      audio.volume = volume;
+      audio.loop = loop;
+      // Evita que erros de carregamento quebrem a aplicação
+      audio.addEventListener('error', (e) => {
+        console.warn("Não foi possível carregar o áudio:", url, e);
+      });
+      return audio;
+    };
 
-    successSound.current = new Audio("https://cdn.pixabay.com/audio/2021/08/04/audio_0625c1539c.mp3");
-    errorSound.current = new Audio("https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73484.mp3");
-    victorySound.current = new Audio("https://cdn.pixabay.com/audio/2021/08/04/audio_bb630a0517.mp3");
+    // Links atualizados e mais estáveis
+    bgMusic.current = initAudio("https://assets.mixkit.co/music/preview/mixkit-games-world-606.mp3", 0.3, true);
+    successSound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-winning-chime-2015.mp3", 0.5);
+    errorSound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-falling-hit-on-slender-wood-744.mp3", 0.4);
+    victorySound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-light-applause-524.mp3", 0.6);
 
     return () => {
-      bgMusic.current?.pause();
+      if (bgMusic.current) {
+        bgMusic.current.pause();
+        bgMusic.current.src = "";
+      }
     };
   }, []);
 
   const playBg = () => {
-    if (!isMuted && bgMusic.current) {
-      bgMusic.current.play().catch((error) => {
-        console.log("Autoplay bloqueado pelo navegador. Aguardando interação.", error);
-      });
+    if (!isMuted && bgMusic.current && bgMusic.current.readyState >= 2) {
+      bgMusic.current.play().catch(() => {});
     }
   };
 
   const playSuccess = () => {
-    if (!isMuted && successSound.current) {
+    if (!isMuted && successSound.current && successSound.current.readyState >= 2) {
       successSound.current.currentTime = 0;
-      successSound.current.play();
+      successSound.current.play().catch(() => {});
     }
   };
 
   const playError = () => {
-    if (!isMuted && errorSound.current) {
+    if (!isMuted && errorSound.current && errorSound.current.readyState >= 2) {
       errorSound.current.currentTime = 0;
-      errorSound.current.play();
+      errorSound.current.play().catch(() => {});
     }
   };
 
   const playVictory = () => {
-    if (!isMuted && victorySound.current) {
+    if (!isMuted && victorySound.current && victorySound.current.readyState >= 2) {
       bgMusic.current?.pause();
-      victorySound.current.play();
+      victorySound.current.play().catch(() => {});
     }
   };
 
@@ -59,7 +68,7 @@ export const useAudio = () => {
     if (newMuted) {
       bgMusic.current?.pause();
     } else {
-      bgMusic.current?.play().catch(() => {});
+      playBg();
     }
   };
 
