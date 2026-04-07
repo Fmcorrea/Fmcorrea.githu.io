@@ -10,9 +10,10 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    bgMusic.current = new Audio("https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3");
+    // Música de fundo estilo "joguinho simples"
+    bgMusic.current = new Audio("https://cdn.pixabay.com/audio/2021/11/23/audio_0998a81308.mp3");
     bgMusic.current.loop = true;
-    bgMusic.current.volume = 0.3;
+    bgMusic.current.volume = 0.2;
 
     successSound.current = new Audio("https://cdn.pixabay.com/audio/2021/08/04/audio_0625c1539c.mp3");
     errorSound.current = new Audio("https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73484.mp3");
