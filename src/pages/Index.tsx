@@ -25,6 +25,22 @@ const LEVELS = [
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/590251b5c6986ab4865abfb4c63fdfae.png" 
       }
     ]
+  },
+  {
+    id: 2,
+    question: "Quem é jovem e quem é velha?",
+    pairs: [
+      { 
+        word: "JOVEM", 
+        targetId: "jovem", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
+      },
+      { 
+        word: "VELHA", 
+        targetId: "velha", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+      }
+    ]
   }
 ];
 
@@ -63,7 +79,7 @@ const Index = () => {
         if (!assignments[word]) {
           const newAssignments = { ...assignments, [word]: foundTarget };
           setAssignments(newAssignments);
-          showSuccess(`Isso! O copo está ${word.toLowerCase()}!`);
+          showSuccess(`Isso mesmo!`);
           
           // Verifica se completou o nível
           if (Object.keys(newAssignments).length === currentLevel.pairs.length) {
@@ -73,10 +89,12 @@ const Index = () => {
               spread: 70,
               origin: { y: 0.6 }
             });
+            
             setTimeout(() => {
               if (currentLevelIdx < LEVELS.length - 1) {
                 setCurrentLevelIdx(prev => prev + 1);
                 setAssignments({});
+                setDropZones({}); // Limpa as zonas para re-medir no novo nível
               } else {
                 setGameState('finished');
               }
@@ -84,7 +102,7 @@ const Index = () => {
           }
         }
       } else {
-        showError("Ops! Tente no outro copo!");
+        showError("Ops! Tente de novo!");
       }
     }
   };
@@ -94,6 +112,7 @@ const Index = () => {
     setAssignments({});
     setGameState('playing');
     setScore(0);
+    setDropZones({});
   };
 
   if (gameState === 'finished') {
@@ -135,7 +154,7 @@ const Index = () => {
         <div className="grid grid-cols-2 gap-6 md:gap-12 max-w-3xl mx-auto mb-12">
           {currentLevel.pairs.map((pair) => (
             <ImageDropZone
-              key={pair.targetId}
+              key={`${currentLevel.id}-${pair.targetId}`}
               id={pair.targetId}
               imageSrc={pair.image}
               onMeasure={handleMeasure}
@@ -148,7 +167,7 @@ const Index = () => {
         <div className="flex flex-wrap justify-center gap-6 mt-8">
           {currentLevel.pairs.map((pair) => (
             <DraggableWord
-              key={pair.word}
+              key={`${currentLevel.id}-${pair.word}`}
               id={pair.word}
               text={pair.word}
               onDragEnd={handleDragEnd}
