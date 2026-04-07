@@ -49,12 +49,12 @@ const LEVELS = [
       { 
         word: "FELIZ", 
         targetId: "feliz", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/815fabbf4652e02b3e1faa9942d1f7e8.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/852057a7f5032217a65416b23a13fb5a.png" 
       },
       { 
         word: "TRISTE", 
         targetId: "triste", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/852057a7f5032217a65416b23a13fb5a.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/815fabbf4652e02b3e1faa9942d1f7e8.png" 
       }
     ]
   }
