@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import confetti from 'canvas-confetti';
 import DraggableWord from '@/components/DraggableWord';
 import ImageDropZone from '@/components/ImageDropZone';
@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
 import { Sparkles, RefreshCcw, Trophy } from 'lucide-react';
 
-const LEVELS = [
+const LEVELS_DATA = [
   {
     id: 1,
     question: "Arrasta as palavras para os copos certos!",
@@ -113,25 +113,51 @@ const LEVELS = [
       { 
         word: "ABERTO", 
         targetId: "aberto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/8160c2b71e429b18d52d2c32fbd7795c.jpg" 
       },
       { 
         word: "FECHADO", 
         targetId: "fechado", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/ae9bd54b20ea44966cfe039d434b5503.jpg" 
       }
     ]
   }
 ];
 
+const shuffle = <T,>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
 const Index = () => {
+  const [shuffledLevels, setShuffledLevels] = useState<typeof LEVELS_DATA>([]);
   const [currentLevelIdx, setCurrentLevelIdx] = useState(0);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({});
   const [dropZones, setDropZones] = useState<Record<string, DOMRect>>({});
   const [gameState, setGameState] = useState<'playing' | 'finished'>('playing');
   const [score, setScore] = useState(0);
 
-  const currentLevel = LEVELS[currentLevelIdx];
+  // Inicializa os níveis baralhados
+  useEffect(() => {
+    setShuffledLevels(shuffle(LEVELS_DATA));
+  }, []);
+
+  const currentLevel = shuffledLevels[currentLevelIdx];
+
+  // Baralha as imagens e as palavras de forma independente para cada nível
+  const displayPairs = useMemo(() => {
+    if (!currentLevel) return [];
+    return shuffle(currentLevel.pairs);
+  }, [currentLevel]);
+
+  const wordPairs = useMemo(() => {
+    if (!currentLevel) return [];
+    return shuffle(currentLevel.pairs);
+  }, [currentLevel]);
 
   const handleMeasure = useCallback((id: string, rect: DOMRect) => {
     setDropZones(prev => ({ ...prev, [id]: rect }));
@@ -170,7 +196,7 @@ const Index = () => {
             });
             
             setTimeout(() => {
-              if (currentLevelIdx < LEVELS.length - 1) {
+              if (currentLevelIdx < shuffledLevels.length - 1) {
                 setCurrentLevelIdx(prev => prev + 1);
                 setAssignments({});
                 setDropZones({});
@@ -187,12 +213,15 @@ const Index = () => {
   };
 
   const resetGame = () => {
+    setShuffledLevels(shuffle(LEVELS_DATA));
     setCurrentLevelIdx(0);
     setAssignments({});
     setGameState('playing');
     setScore(0);
     setDropZones({});
   };
+
+  if (!currentLevel) return null;
 
   if (gameState === 'finished') {
     return (
@@ -218,7 +247,7 @@ const Index = () => {
       <div className="max-w-4xl w-full">
         <GameHeader 
           currentLevel={currentLevelIdx + 1} 
-          totalLevels={LEVELS.length} 
+          totalLevels={shuffledLevels.length} 
           score={score} 
         />
 
@@ -231,7 +260,7 @@ const Index = () => {
         </div>
 
         <div className="grid grid-cols-2 gap-6 md:gap-12 max-w-3xl mx-auto mb-12">
-          {currentLevel.pairs.map((pair) => (
+          {displayPairs.map((pair) => (
             <ImageDropZone
               key={`${currentLevel.id}-${pair.targetId}`}
               id={pair.targetId}
@@ -244,7 +273,7 @@ const Index = () => {
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 mt-8">
-          {currentLevel.pairs.map((pair) => (
+          {wordPairs.map((pair) => (
             <DraggableWord
               key={`${currentLevel.id}-${pair.word}`}
               id={pair.word}
