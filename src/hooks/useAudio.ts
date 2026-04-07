@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 
 export const useAudio = () => {
   const bgMusic = useRef<HTMLAudioElement | null>(null);
@@ -10,12 +10,10 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    // Música de fundo: Estilo infantil, alegre e saltitante
     bgMusic.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3");
     bgMusic.current.loop = true;
     bgMusic.current.volume = 0.15;
 
-    // Efeitos sonoros divertidos
     successSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
     errorSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flick.ogg");
     victorySound.current = new Audio("https://actions.google.com/sounds/v1/human_voices/applause_clapping_and_cheering.ogg");
@@ -28,11 +26,30 @@ export const useAudio = () => {
     };
   }, []);
 
+  const speak = useCallback((text: string) => {
+    if (isMuted || !window.speechSynthesis) return;
+
+    // Cancela qualquer narração em curso para não sobrepor
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-PT';
+    utterance.rate = 0.9; // Um pouco mais lento para ser claro para crianças
+    utterance.pitch = 1.1; // Tom ligeiramente mais agudo e amigável
+
+    // Tenta encontrar especificamente uma voz de Portugal
+    const voices = window.speechSynthesis.getVoices();
+    const ptPTVoice = voices.find(v => v.lang === 'pt-PT' || v.lang === 'pt_PT');
+    if (ptPTVoice) {
+      utterance.voice = ptPTVoice;
+    }
+
+    window.speechSynthesis.speak(utterance);
+  }, [isMuted]);
+
   const playBg = () => {
     if (!isMuted && bgMusic.current) {
-      bgMusic.current.play().catch(() => {
-        console.log("Aguardando interação para tocar música.");
-      });
+      bgMusic.current.play().catch(() => {});
     }
   };
 
@@ -62,10 +79,11 @@ export const useAudio = () => {
     setIsMuted(newMuted);
     if (newMuted) {
       bgMusic.current?.pause();
+      window.speechSynthesis.cancel();
     } else {
       bgMusic.current?.play().catch(() => {});
     }
   };
 
-  return { playBg, playSuccess, playError, playVictory, toggleMute, isMuted };
+  return { playBg, playSuccess, playError, playVictory, toggleMute, isMuted, speak };
 };

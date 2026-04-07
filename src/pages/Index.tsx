@@ -135,7 +135,7 @@ const shuffle = <T,>(array: T[]): T[] => {
 };
 
 const Index = () => {
-  const { playBg, playSuccess, playError, playVictory, toggleMute, isMuted } = useAudio();
+  const { playBg, playSuccess, playError, playVictory, toggleMute, isMuted, speak } = useAudio();
   const [shuffledLevels, setShuffledLevels] = useState<typeof LEVELS_DATA>([]);
   const [currentLevelIdx, setCurrentLevelIdx] = useState(0);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({});
@@ -312,6 +312,7 @@ const Index = () => {
               key={`${currentLevel.id}-${pair.word}`}
               id={pair.word}
               text={pair.word}
+              onDragStart={() => speak(pair.word)}
               onDragEnd={handleDragEnd}
               disabled={!!assignments[pair.word]}
             />

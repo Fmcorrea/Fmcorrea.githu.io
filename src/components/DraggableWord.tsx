@@ -7,14 +7,16 @@ interface DraggableWordProps {
   id: string;
   text: string;
   onDragEnd: (id: string, info: any) => void;
+  onDragStart?: () => void;
   disabled?: boolean;
 }
 
-const DraggableWord = ({ id, text, onDragEnd, disabled }: DraggableWordProps) => {
+const DraggableWord = ({ id, text, onDragEnd, onDragStart, disabled }: DraggableWordProps) => {
   return (
     <motion.div
       drag={!disabled}
       dragSnapToOrigin
+      onDragStart={onDragStart}
       onDragEnd={(_, info) => onDragEnd(id, info)}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95, cursor: 'grabbing' }}
