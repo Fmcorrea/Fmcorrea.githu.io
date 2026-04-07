@@ -35,7 +35,7 @@ const LEVELS_DATA = [
     question: "Feliz ou Triste?",
     pairs: [
       { word: "FELIZ", targetId: "feliz", image: "Alice feliz.png" },
-      { word: "TRISTE", targetId: "triste", image: "Alice triste.png" }
+      { word: "TRISTE", targetId: "triste", image: "triste.jpeg" }
     ]
   },
   {
