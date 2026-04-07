@@ -7,7 +7,8 @@ import ImageDropZone from '@/components/ImageDropZone';
 import GameHeader from '@/components/GameHeader';
 import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
-import { Sparkles, RefreshCcw, Trophy } from 'lucide-react';
+import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX } from 'lucide-react';
+import { useAudio } from '@/hooks/useAudio';
 
 const LEVELS_DATA = [
   {
@@ -134,6 +135,7 @@ const shuffle = <T,>(array: T[]): T[] => {
 };
 
 const Index = () => {
+  const { playBg, playSuccess, playError, playVictory, toggleMute, isMuted } = useAudio();
   const [shuffledLevels, setShuffledLevels] = useState<typeof LEVELS_DATA>([]);
   const [currentLevelIdx, setCurrentLevelIdx] = useState(0);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({});
@@ -141,14 +143,12 @@ const Index = () => {
   const [gameState, setGameState] = useState<'playing' | 'finished'>('playing');
   const [score, setScore] = useState(0);
 
-  // Inicializa os níveis baralhados
   useEffect(() => {
     setShuffledLevels(shuffle(LEVELS_DATA));
   }, []);
 
   const currentLevel = shuffledLevels[currentLevelIdx];
 
-  // Baralha as imagens e as palavras de forma independente para cada nível
   const displayPairs = useMemo(() => {
     if (!currentLevel) return [];
     return shuffle(currentLevel.pairs);
@@ -164,6 +164,7 @@ const Index = () => {
   }, []);
 
   const handleDragEnd = (word: string, info: any) => {
+    playBg(); // Tenta iniciar a música no primeiro gesto
     const dropPoint = { x: info.point.x, y: info.point.y };
     
     let foundTarget = null;
@@ -185,6 +186,7 @@ const Index = () => {
         if (!assignments[word]) {
           const newAssignments = { ...assignments, [word]: foundTarget };
           setAssignments(newAssignments);
+          playSuccess();
           showSuccess(`Muito bem!`);
           
           if (Object.keys(newAssignments).length === currentLevel.pairs.length) {
@@ -201,12 +203,14 @@ const Index = () => {
                 setAssignments({});
                 setDropZones({});
               } else {
+                playVictory();
                 setGameState('finished');
               }
             }, 2000);
           }
         }
       } else {
+        playError();
         showError("Ups! Tenta outra vez!");
       }
     }
@@ -219,6 +223,7 @@ const Index = () => {
     setGameState('playing');
     setScore(0);
     setDropZones({});
+    playBg();
   };
 
   if (!currentLevel) return null;
@@ -244,7 +249,15 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-sky-50 py-8 px-4 flex flex-col items-center overflow-hidden">
-      <div className="max-w-4xl w-full">
+      <div className="max-w-4xl w-full relative">
+        {/* Botão de Som */}
+        <button 
+          onClick={toggleMute}
+          className="absolute -top-4 right-4 p-3 bg-white rounded-full shadow-md hover:bg-slate-50 transition-colors z-50 border-2 border-slate-100"
+        >
+          {isMuted ? <VolumeX className="text-slate-400" /> : <Volume2 className="text-blue-500" />}
+        </button>
+
         <GameHeader 
           currentLevel={currentLevelIdx + 1} 
           totalLevels={shuffledLevels.length} 
