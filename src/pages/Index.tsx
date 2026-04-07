@@ -65,12 +65,28 @@ const LEVELS = [
       { 
         word: "PERTO", 
         targetId: "perto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/1bc9efbbed2c06befd6e3f329ed06351.jpg" 
       },
       { 
         word: "LONGE", 
         targetId: "longe", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/73c3f0dd092aff084297b40f75916966.jpg" 
+      }
+    ]
+  },
+  {
+    id: 5,
+    question: "Quem é alto e quem é baixo?",
+    pairs: [
+      { 
+        word: "ALTO", 
+        targetId: "alto", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/73c3f0dd092aff084297b40f75916966.jpg" 
+      },
+      { 
+        word: "BAIXO", 
+        targetId: "baixo", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/1bc9efbbed2c06befd6e3f329ed06351.jpg" 
       }
     ]
   }
