@@ -17,7 +17,7 @@ const LEVELS_DATA = [
     id: 1,
     question: "Vazio ou Cheio?",
     pairs: [
-      { word: "VAZIO", targetId: "vazio", image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80" },
+      { word: "VAZIO", targetId: "vazio", image: "Chip vazio.png" },
       { word: "CHEIO", targetId: "cheio", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" }
     ]
   },
