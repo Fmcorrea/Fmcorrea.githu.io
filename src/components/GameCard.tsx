@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 interface GameCardProps {
   imageSrc: string;
-  label: string;
+  label: string; // Usado apenas para acessibilidade (alt text)
   onClick: () => void;
   isSelected?: boolean;
   isCorrect?: boolean;
@@ -27,31 +27,28 @@ const GameCard = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "relative group overflow-hidden rounded-3xl border-8 transition-all duration-300 transform hover:scale-105 active:scale-95",
-        "bg-white shadow-xl",
+        "relative group overflow-hidden rounded-[2rem] border-[6px] transition-all duration-300 transform hover:scale-105 active:scale-95",
+        "bg-white shadow-xl aspect-square flex flex-col items-center justify-center p-2",
         isSelected ? "border-blue-400" : "border-white",
         isCorrect && "border-green-500 ring-8 ring-green-200",
         isWrong && "border-red-500 ring-8 ring-red-200 opacity-70",
         !disabled && "hover:shadow-2xl"
       )}
     >
-      <div className="aspect-video w-full overflow-hidden">
+      <div className="w-full h-full overflow-hidden rounded-2xl">
         <img 
           src={imageSrc} 
           alt={label} 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
+          loading="eager"
         />
       </div>
-      <div className={cn(
-        "p-4 text-center font-bold text-2xl uppercase tracking-wider",
-        isCorrect ? "text-green-600" : isWrong ? "text-red-600" : "text-slate-700"
-      )}>
-        {label}
-      </div>
+      
+      {/* Removido o texto que identificava a resposta */}
       
       {isCorrect && (
-        <div className="absolute inset-0 flex items-center justify-center bg-green-500/20 pointer-events-none">
-          <span className="text-6xl">🌟</span>
+        <div className="absolute inset-0 flex items-center justify-center bg-green-500/10 pointer-events-none">
+          <span className="text-7xl animate-bounce">🌟</span>
         </div>
       )}
     </button>

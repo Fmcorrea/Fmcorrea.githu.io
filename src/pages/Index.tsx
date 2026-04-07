@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
 import { Sparkles, RefreshCcw, Trophy } from 'lucide-react';
 
-// Definição dos níveis do jogo com as imagens enviadas
 const LEVELS = [
   {
     id: 1,
@@ -17,12 +16,12 @@ const LEVELS = [
     options: [
       { 
         id: "vazio", 
-        label: "Vazio", 
+        label: "Copo Vazio", 
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/5e4ec9e7d27791fba3d61f4f40d0c60e.png" 
       },
       { 
         id: "cheio", 
-        label: "Cheio", 
+        label: "Copo Cheio", 
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/590251b5c6986ab4865abfb4c63fdfae.png" 
       }
     ]
@@ -114,7 +113,7 @@ const Index = () => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+        <div className="grid grid-cols-2 gap-6 md:gap-12 max-w-3xl mx-auto">
           {currentLevel.options.map((option) => (
             <GameCard
               key={option.id}
