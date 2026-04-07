@@ -18,12 +18,12 @@ const LEVELS_DATA = [
       { 
         word: "VAZIO", 
         targetId: "vazio", 
-        image: "https://images.unsplash.com/photo-1591193686104-fddba4d0e4d8?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/5e4ec9e7d27791fba3d61f4f40d0c60e.png" 
       },
       { 
         word: "CHEIO", 
         targetId: "cheio", 
-        image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/590251b5c6986ab4865abfb4c63fdfae.png" 
       }
     ]
   },
@@ -34,12 +34,12 @@ const LEVELS_DATA = [
       { 
         word: "NOVA", 
         targetId: "nova", 
-        image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/b0128978a4ef2a7590550cb78a328b60.png" 
       },
       { 
         word: "VELHA", 
         targetId: "velha", 
-        image: "https://images.unsplash.com/photo-1544144433-d50aff500b91?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/cbaa12aba022b90c8b66795905b21f56.png" 
       }
     ]
   },
@@ -50,12 +50,12 @@ const LEVELS_DATA = [
       { 
         word: "FELIZ", 
         targetId: "feliz", 
-        image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/852057a7f5032217a65416b23a13fb5a.png" 
       },
       { 
         word: "TRISTE", 
         targetId: "triste", 
-        image: "https://images.unsplash.com/photo-1471286174890-9c112ffca5b4?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/815fabbf4652e02b3e1faa9942d1f7e8.png" 
       }
     ]
   },
@@ -66,12 +66,12 @@ const LEVELS_DATA = [
       { 
         word: "PERTO", 
         targetId: "perto", 
-        image: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/1bc9efbbed2c06befd6e3f329ed06351.jpg" 
       },
       { 
         word: "LONGE", 
         targetId: "longe", 
-        image: "https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/73c3f0dd092aff084297b40f75916966.jpg" 
       }
     ]
   },
@@ -82,12 +82,12 @@ const LEVELS_DATA = [
       { 
         word: "ALTO", 
         targetId: "alto", 
-        image: "https://images.unsplash.com/photo-1547721064-36435f610950?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/eff9cb527b4e1656978a87de07b532e7.jpg" 
       },
       { 
         word: "BAIXO", 
         targetId: "baixo", 
-        image: "https://images.unsplash.com/photo-1535241749838-299277b6305f?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a23e62200473fe4f153a140fb61903b6.jpg" 
       }
     ]
   },
@@ -98,12 +98,12 @@ const LEVELS_DATA = [
       { 
         word: "LONGO", 
         targetId: "longo", 
-        image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/0bec8a1d9fa5134f97e87c5d7ab1cfa7.jpg" 
       },
       { 
         word: "CURTO", 
         targetId: "curto", 
-        image: "https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a46acbb4dd59329cbf618885284ec168.jpg" 
       }
     ]
   },
@@ -114,12 +114,12 @@ const LEVELS_DATA = [
       { 
         word: "ABERTO", 
         targetId: "aberto", 
-        image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/8160c2b71e429b18d52d2c32fbd7795c.jpg" 
       },
       { 
         word: "FECHADO", 
         targetId: "fechado", 
-        image: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=400&h=400&fit=crop" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/ae9bd54b20ea44966cfe039d434b5503.jpg" 
       }
     ]
   }
