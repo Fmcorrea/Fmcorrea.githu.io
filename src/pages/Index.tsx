@@ -41,6 +41,22 @@ const LEVELS = [
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/cbaa12aba022b90c8b66795905b21f56.png" 
       }
     ]
+  },
+  {
+    id: 3,
+    question: "Como se sente a Alice?",
+    pairs: [
+      { 
+        word: "FELIZ", 
+        targetId: "feliz", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/88888888888888888888888888888888.png" 
+      },
+      { 
+        word: "TRISTE", 
+        targetId: "triste", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/99999999999999999999999999999999.png" 
+      }
+    ]
   }
 ];
 
