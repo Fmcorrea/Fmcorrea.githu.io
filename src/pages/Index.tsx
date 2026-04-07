@@ -12,7 +12,7 @@ import { Sparkles, RefreshCcw, Trophy } from 'lucide-react';
 const LEVELS = [
   {
     id: 1,
-    question: "Arraste as palavras para os copos certos!",
+    question: "Arrasta as palavras para os copos certos!",
     pairs: [
       { 
         word: "VAZIO", 
@@ -28,17 +28,17 @@ const LEVELS = [
   },
   {
     id: 2,
-    question: "Quem é jovem e quem é velha?",
+    question: "Quem é a nova e quem é a velha?",
     pairs: [
       { 
-        word: "JOVEM", 
-        targetId: "jovem", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
+        word: "NOVA", 
+        targetId: "nova", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/b0128978a4ef2a7590550cb78a328b60.png" 
       },
       { 
         word: "VELHA", 
         targetId: "velha", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/cbaa12aba022b90c8b66795905b21f56.png" 
       }
     ]
   }
@@ -79,9 +79,8 @@ const Index = () => {
         if (!assignments[word]) {
           const newAssignments = { ...assignments, [word]: foundTarget };
           setAssignments(newAssignments);
-          showSuccess(`Isso mesmo!`);
+          showSuccess(`Muito bem!`);
           
-          // Verifica se completou o nível
           if (Object.keys(newAssignments).length === currentLevel.pairs.length) {
             setScore(prev => prev + 20);
             confetti({
@@ -94,7 +93,7 @@ const Index = () => {
               if (currentLevelIdx < LEVELS.length - 1) {
                 setCurrentLevelIdx(prev => prev + 1);
                 setAssignments({});
-                setDropZones({}); // Limpa as zonas para re-medir no novo nível
+                setDropZones({});
               } else {
                 setGameState('finished');
               }
@@ -102,7 +101,7 @@ const Index = () => {
           }
         }
       } else {
-        showError("Ops! Tente de novo!");
+        showError("Ups! Tenta outra vez!");
       }
     }
   };
@@ -121,13 +120,13 @@ const Index = () => {
         <div className="bg-white p-12 rounded-[40px] shadow-2xl border-8 border-yellow-400 max-w-md w-full animate-in zoom-in duration-500">
           <Trophy className="w-32 h-32 text-yellow-400 mx-auto mb-6" />
           <h1 className="text-5xl font-black text-slate-800 mb-4">UAU!</h1>
-          <p className="text-2xl text-slate-600 mb-8 font-bold">Você é nota 10!</p>
+          <p className="text-2xl text-slate-600 mb-8 font-bold">Estás de parabéns!</p>
           <div className="text-4xl font-black text-blue-600 mb-8">Pontos: {score}</div>
           <Button 
             onClick={resetGame}
             className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg"
           >
-            <RefreshCcw className="mr-3" /> JOGAR DE NOVO
+            <RefreshCcw className="mr-3" /> JOGAR OUTRA VEZ
           </Button>
         </div>
       </div>
@@ -148,7 +147,7 @@ const Index = () => {
             <Sparkles className="text-yellow-400" />
             {currentLevel.question}
           </h2>
-          <p className="text-slate-500 font-bold">Arraste as palavras coloridas até as imagens!</p>
+          <p className="text-slate-500 font-bold">Arrasta as palavras coloridas para as imagens!</p>
         </div>
 
         <div className="grid grid-cols-2 gap-6 md:gap-12 max-w-3xl mx-auto mb-12">
