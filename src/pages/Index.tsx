@@ -49,7 +49,7 @@ const LEVELS_DATA = [
     id: 5,
     question: "Alto ou Baixo?",
     pairs: [
-      { word: "ALTO", targetId: "alto", image: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dee?w=500&q=80" },
+      { word: "ALTO", targetId: "alto", image: "kristoff alto.jpg" },
       { word: "BAIXO", targetId: "baixo", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&q=80" }
     ]
   },
