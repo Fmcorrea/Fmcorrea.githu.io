@@ -57,6 +57,22 @@ const LEVELS = [
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/815fabbf4652e02b3e1faa9942d1f7e8.png" 
       }
     ]
+  },
+  {
+    id: 4,
+    question: "Quem está perto e quem está longe?",
+    pairs: [
+      { 
+        word: "PERTO", 
+        targetId: "perto", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
+      },
+      { 
+        word: "LONGE", 
+        targetId: "longe", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+      }
+    ]
   }
 ];
 
