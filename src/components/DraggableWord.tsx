@@ -20,6 +20,8 @@ const DraggableWord = ({ id, text, onDragEnd, onDragStart, disabled }: Draggable
       onDragEnd={(_, info) => onDragEnd(id, info)}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95, cursor: 'grabbing' }}
+      // touch-action: none é crucial para o drag and drop funcionar em browsers mobile
+      style={{ touchAction: 'none' }}
       className={`
         px-8 py-4 bg-white border-4 border-blue-400 rounded-2xl shadow-lg
         text-3xl font-black text-blue-600 cursor-grab select-none

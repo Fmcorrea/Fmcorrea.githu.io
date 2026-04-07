@@ -17,56 +17,56 @@ const LEVELS_DATA = [
     id: 1,
     question: "Vazio ou Cheio?",
     pairs: [
-      { word: "VAZIO", targetId: "vazio", image: "Chip vazio.png" },
-      { word: "CHEIO", targetId: "cheio", image: "Chip cheio.png" }
+      { word: "VAZIO", targetId: "vazio", image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80" },
+      { word: "CHEIO", targetId: "cheio", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" }
     ]
   },
   {
     id: 2,
     question: "Nova ou Velha?",
     pairs: [
-      { word: "NOVA", targetId: "nova", image: "Branca de neve.png" },
-      { word: "VELHA", targetId: "velha", image: "Bruxa.png" }
+      { word: "NOVA", targetId: "nova", image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&q=80" },
+      { word: "VELHA", targetId: "velha", image: "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=500&q=80" }
     ]
   },
   {
     id: 3,
     question: "Feliz ou Triste?",
     pairs: [
-      { word: "FELIZ", targetId: "feliz", image: "Alice feliz.png" },
-      { word: "TRISTE", targetId: "triste", image: "Alice triste.png" }
+      { word: "FELIZ", targetId: "feliz", image: "https://images.unsplash.com/photo-1545249390-6bdfa2879714?w=500&q=80" },
+      { word: "TRISTE", targetId: "triste", image: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=500&q=80" }
     ]
   },
   {
     id: 4,
     question: "Perto ou Longe?",
     pairs: [
-      { word: "PERTO", targetId: "perto", image: "cinderela perto.jpg" },
-      { word: "LONGE", targetId: "longe", image: "aurora longe.jpg" }
+      { word: "PERTO", targetId: "perto", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&q=80" },
+      { word: "LONGE", targetId: "longe", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80" }
     ]
   },
   {
     id: 5,
     question: "Alto ou Baixo?",
     pairs: [
-      { word: "ALTO", targetId: "alto", image: "kristoff alto.jpg" },
-      { word: "BAIXO", targetId: "baixo", image: "olaf pequeno.jpg" }
+      { word: "ALTO", targetId: "alto", image: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dee?w=500&q=80" },
+      { word: "BAIXO", targetId: "baixo", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&q=80" }
     ]
   },
   {
     id: 6,
     question: "Longo ou Curto?",
     pairs: [
-      { word: "LONGO", targetId: "longo", image: "cabelo longo.jpg" },
-      { word: "CURTO", targetId: "curto", image: "cabelo curto.jpg" }
+      { word: "LONGO", targetId: "longo", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80" },
+      { word: "CURTO", targetId: "curto", image: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=80" }
     ]
   },
   {
     id: 7,
     question: "Aberto ou Fechado?",
     pairs: [
-      { word: "ABERTO", targetId: "aberto", image: "livro aberto.jpg" },
-      { word: "FECHADO", targetId: "fechado", image: "livro fechado.jpg" }
+      { word: "ABERTO", targetId: "aberto", image: "https://images.unsplash.com/photo-1544640808-32ca72ac7f37?w=500&q=80" },
+      { word: "FECHADO", targetId: "fechado", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80" }
     ]
   }
 ];
@@ -113,9 +113,19 @@ const Index = () => {
   };
 
   const handleDragEnd = (word: string, info: any) => {
-    const element = document.elementFromPoint(info.point.x, info.point.y);
-    const dropZone = element?.closest('[data-target-id]');
-    const foundTargetId = dropZone?.getAttribute('data-target-id');
+    // Usamos elementsFromPoint para obter TODOS os elementos sob o cursor
+    // Isto permite-nos ignorar o cartão que estamos a arrastar e encontrar a zona de drop por baixo
+    const elements = document.elementsFromPoint(info.point.x, info.point.y);
+    
+    // Procuramos o primeiro elemento que tenha o atributo data-target-id
+    let foundTargetId: string | null = null;
+    for (const el of elements) {
+      const target = el.closest('[data-target-id]');
+      if (target) {
+        foundTargetId = target.getAttribute('data-target-id');
+        break;
+      }
+    }
 
     if (foundTargetId) {
       const pair = currentLevel.pairs.find(p => p.targetId === foundTargetId);
