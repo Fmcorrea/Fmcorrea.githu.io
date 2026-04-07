@@ -57,7 +57,7 @@ const LEVELS_DATA = [
     id: 6,
     question: "Longo ou Curto?",
     pairs: [
-      { word: "LONGO", targetId: "longo", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80" },
+      { word: "LONGO", targetId: "longo", image: "cabelo longo.jpg" },
       { word: "CURTO", targetId: "curto", image: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=80" }
     ]
   },
