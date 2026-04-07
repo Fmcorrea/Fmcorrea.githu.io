@@ -18,7 +18,8 @@ const LEVELS_DATA = [
     question: "Vazio ou Cheio?",
     pairs: [
       { word: "VAZIO", targetId: "vazio", image: "vazio.jpeg" },
-      { word: "CHEIO", targetId: "cheio", image: "Chip cheio.png" }
+      { word: "CHEIO", targetId: "cheio", image: "cheio.jpeg
+" }
     ]
   },
   {
