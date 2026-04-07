@@ -7,67 +7,66 @@ import ImageDropZone from '@/components/ImageDropZone';
 import GameHeader from '@/components/GameHeader';
 import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
-import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX, Play } from 'lucide-react';
+import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX, Play, Loader2 } from 'lucide-react';
 import { useAudio } from '@/hooks/useAudio';
 import { getSupabaseUrl } from '@/lib/utils';
 
-// Dados dos níveis configurados para o Supabase
-// Nota: Você deve fazer upload das imagens para o bucket 'game-assets'
+// Imagens de alta qualidade para o jogo funcionar imediatamente
 const LEVELS_DATA = [
   {
     id: 1,
     question: "Vazio ou Cheio?",
     pairs: [
-      { word: "VAZIO", targetId: "vazio", image: "copo_vazio.png" },
-      { word: "CHEIO", targetId: "cheio", image: "copo_cheio.png" }
+      { word: "VAZIO", targetId: "vazio", image: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=500&q=80" },
+      { word: "CHEIO", targetId: "cheio", image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&q=80" }
     ]
   },
   {
     id: 2,
     question: "Nova ou Velha?",
     pairs: [
-      { word: "NOVA", targetId: "nova", image: "pessoa_nova.png" },
-      { word: "VELHA", targetId: "velha", image: "pessoa_velha.png" }
+      { word: "NOVA", targetId: "nova", image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&q=80" },
+      { word: "VELHA", targetId: "velha", image: "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=500&q=80" }
     ]
   },
   {
     id: 3,
     question: "Feliz ou Triste?",
     pairs: [
-      { word: "FELIZ", targetId: "feliz", image: "alice_feliz.png" },
-      { word: "TRISTE", targetId: "triste", image: "alice_triste.png" }
+      { word: "FELIZ", targetId: "feliz", image: "https://images.unsplash.com/photo-1545249390-6bdfa2879714?w=500&q=80" },
+      { word: "TRISTE", targetId: "triste", image: "https://images.unsplash.com/photo-1516585427167-9f4af9627e6c?w=500&q=80" }
     ]
   },
   {
     id: 4,
     question: "Perto ou Longe?",
     pairs: [
-      { word: "PERTO", targetId: "perto", image: "perto.jpg" },
-      { word: "LONGE", targetId: "longe", image: "longe.jpg" }
+      { word: "PERTO", targetId: "perto", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=500&q=80" },
+      { word: "LONGE", targetId: "longe", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80" }
     ]
   },
   {
     id: 5,
     question: "Alto ou Baixo?",
     pairs: [
-      { word: "ALTO", targetId: "alto", image: "alto.jpg" },
-      { word: "BAIXO", targetId: "baixo", image: "baixo.jpg" }
+      { word: "ALTO", targetId: "alto", image: "https://images.unsplash.com/photo-1434725039720-aaad6dd32dee?w=500&q=80" },
+      { word: "BAIXO", targetId: "baixo", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=500&q=80" }
     ]
   },
   {
     id: 6,
     question: "Longo ou Curto?",
     pairs: [
-      { word: "LONGO", targetId: "longo", image: "cabelo_longo.jpg" },
-      { word: "CURTO", targetId: "curto", image: "cabelo_curto.jpg" }
+      { word: "LONGO", targetId: "longo", image: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=500&q=80" },
+      { word: "CURTO", targetId: "curto", image: "https://images.unsplash.com/photo-1560869713-7d0a29430803?w=500&q=80" }
     ]
   },
   {
     id: 7,
     question: "Aberto ou Fechado?",
     pairs: [
-      { word: "ABERTO", targetId: "aberto", image: "livro_aberto.jpg" },
-      { word: "FECHADO", targetId: "fechado", image: "livro_fechado.jpg" }
+      { word: "ABERTO", targetId: "aberto", image: "https://images.unsplash.com/photo-1544640808-32ca72ac7f37?w=500&q=80" },
+      { word: "FECHADO", targetId: "fechado", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80" }
     ]
   }
 ];
@@ -114,7 +113,6 @@ const Index = () => {
   };
 
   const handleDragEnd = (word: string, info: any) => {
-    // Deteção de colisão ultra-estável usando coordenadas do ecrã
     const element = document.elementFromPoint(info.point.x, info.point.y);
     const dropZone = element?.closest('[data-target-id]');
     const foundTargetId = dropZone?.getAttribute('data-target-id');
@@ -150,6 +148,14 @@ const Index = () => {
       }
     }
   };
+
+  if (shuffledLevels.length === 0) {
+    return (
+      <div className="min-h-screen bg-sky-50 flex items-center justify-center">
+        <Loader2 className="w-12 h-12 text-blue-500 animate-spin" />
+      </div>
+    );
+  }
 
   if (gameState === 'start') {
     return (
