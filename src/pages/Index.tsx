@@ -81,12 +81,28 @@ const LEVELS = [
       { 
         word: "ALTO", 
         targetId: "alto", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/73c3f0dd092aff084297b40f75916966.jpg" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/eff9cb527b4e1656978a87de07b532e7.jpg" 
       },
       { 
         word: "BAIXO", 
         targetId: "baixo", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/1bc9efbbed2c06befd6e3f329ed06351.jpg" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a23e62200473fe4f153a140fb61903b6.jpg" 
+      }
+    ]
+  },
+  {
+    id: 6,
+    question: "Qual é o cabelo longo e qual é o curto?",
+    pairs: [
+      { 
+        word: "LONGO", 
+        targetId: "longo", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+      },
+      { 
+        word: "CURTO", 
+        targetId: "curto", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
       }
     ]
   }
