@@ -18,8 +18,7 @@ const LEVELS_DATA = [
     question: "Vazio ou Cheio?",
     pairs: [
       { word: "VAZIO", targetId: "vazio", image: "vazio.jpeg" },
-      { word: "CHEIO", targetId: "cheio", image: "cheio.jpeg
-" }
+      { word: "CHEIO", targetId: "cheio", image: "cheio.jpeg" }
     ]
   },
   {
@@ -67,7 +66,7 @@ const LEVELS_DATA = [
     question: "Aberto ou Fechado?",
     pairs: [
       { word: "ABERTO", targetId: "aberto", image: "aberto.jpeg" },
-      { word: "FECHADO", targetId: "fechado", image: "fechado.jpeg" }
+      { word: "FECHADO", targetId: "fechado", image: "livro fechado.jpg" }
     ]
   }
 ];
