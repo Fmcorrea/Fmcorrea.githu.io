@@ -42,7 +42,7 @@ const LEVELS_DATA = [
     question: "Perto ou Longe?",
     pairs: [
       { word: "PERTO", targetId: "perto", image: "cinderela perto.jpg" },
-      { word: "LONGE", targetId: "longe", image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=500&q=80" }
+      { word: "LONGE", targetId: "longe", image: "aurora longe.jpg" }
     ]
   },
   {
