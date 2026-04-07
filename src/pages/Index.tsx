@@ -51,7 +51,7 @@ const LEVELS_DATA = [
     question: "Alto ou Baixo?",
     pairs: [
       { word: "ALTO", targetId: "alto", image: "alto.jpeg" },
-      { word: "BAIXO", targetId: "baixo", image: "olaf pequeno.jpg" }
+      { word: "BAIXO", targetId: "baixo", image: "baixo.jpeg" }
     ]
   },
   {
