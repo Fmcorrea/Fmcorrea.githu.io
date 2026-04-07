@@ -97,11 +97,27 @@ const LEVELS = [
       { 
         word: "LONGO", 
         targetId: "longo", 
-        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/0bec8a1d9fa5134f97e87c5d7ab1cfa7.jpg" 
       },
       { 
         word: "CURTO", 
         targetId: "curto", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/a46acbb4dd59329cbf618885284ec168.jpg" 
+      }
+    ]
+  },
+  {
+    id: 7,
+    question: "O livro está aberto ou fechado?",
+    pairs: [
+      { 
+        word: "ABERTO", 
+        targetId: "aberto", 
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/77777777777777777777777777777777.png" 
+      },
+      { 
+        word: "FECHADO", 
+        targetId: "fechado", 
         image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/66666666666666666666666666666666.png" 
       }
     ]
