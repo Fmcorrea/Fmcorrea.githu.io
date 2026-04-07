@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
 import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX, Play } from 'lucide-react';
 import { useAudio } from '@/hooks/useAudio';
+import { resolveMediaUrl } from '@/lib/utils';
 
 const LEVELS_DATA = [
   {
@@ -151,7 +152,10 @@ const Index = () => {
 
   const displayPairs = useMemo(() => {
     if (!currentLevel) return [];
-    return shuffle(currentLevel.pairs);
+    return shuffle(currentLevel.pairs).map(pair => ({
+      ...pair,
+      image: resolveMediaUrl(pair.image)
+    }));
   }, [currentLevel]);
 
   const wordPairs = useMemo(() => {

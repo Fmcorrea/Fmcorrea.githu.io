@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { cn } from "@/lib/utils";
+import { ImageOff, Loader2 } from 'lucide-react';
 
 interface ImageDropZoneProps {
   id: string;
@@ -14,16 +15,34 @@ interface ImageDropZoneProps {
 
 const ImageDropZone = ({ id, imageSrc, isCorrect, isWrong, assignedWord, onMeasure }: ImageDropZoneProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [currentSrc, setCurrentSrc] = useState(imageSrc);
+
+  useEffect(() => {
+    setCurrentSrc(imageSrc);
+    setStatus('loading');
+  }, [imageSrc]);
 
   useEffect(() => {
     if (containerRef.current) {
       onMeasure(id, containerRef.current.getBoundingClientRect());
     }
-    // Re-medir se a janela mudar de tamanho
-    window.addEventListener('resize', () => {
+    const handleResize = () => {
       if (containerRef.current) onMeasure(id, containerRef.current.getBoundingClientRect());
-    });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [onMeasure, id]);
+
+  const handleError = () => {
+    // Se o link da API falhar, tenta o caminho relativo como fallback
+    if (currentSrc.startsWith('https://api.dyad.sh')) {
+      const fileName = currentSrc.split('/').pop();
+      setCurrentSrc(`/api/media/${fileName}`);
+    } else {
+      setStatus('error');
+    }
+  };
 
   return (
     <div 
@@ -35,16 +54,29 @@ const ImageDropZone = ({ id, imageSrc, isCorrect, isWrong, assignedWord, onMeasu
       )}
     >
       <div className="w-full h-full flex items-center justify-center overflow-hidden rounded-3xl bg-slate-50">
-        <img 
-          src={imageSrc} 
-          alt="Opção de jogo" 
-          className="max-w-full max-h-full object-contain"
-          style={{ display: 'block', minWidth: '100px', minHeight: '100px' }}
-          onLoad={(e) => {
-            // Garante que a imagem seja visível em navegadores que podem ter problemas de renderização
-            (e.target as HTMLImageElement).style.opacity = '1';
-          }}
-        />
+        {status === 'loading' && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-50 z-10">
+            <Loader2 className="animate-spin text-blue-400" size={32} />
+          </div>
+        )}
+        
+        {status !== 'error' ? (
+          <img 
+            src={currentSrc} 
+            alt="Opção de jogo" 
+            className={cn(
+              "max-w-full max-h-full object-contain transition-opacity duration-300",
+              status === 'loading' ? 'opacity-0' : 'opacity-100'
+            )}
+            onError={handleError}
+            onLoad={() => setStatus('success')}
+          />
+        ) : (
+          <div className="flex flex-col items-center text-slate-300">
+            <ImageOff size={48} />
+            <span className="text-xs font-bold mt-2">Erro ao carregar</span>
+          </div>
+        )}
       </div>
 
       {assignedWord && (
