@@ -26,7 +26,7 @@ const LEVELS_DATA = [
     question: "Nova ou Velha?",
     pairs: [
       { word: "NOVA", targetId: "nova", image: "Branca de neve.png" },
-      { word: "VELHA", targetId: "velha", image: "https://images.unsplash.com/photo-1581579438747-1dc8d17bbce4?w=500&q=80" }
+      { word: "VELHA", targetId: "velha", image: "Bruxa.png" }
     ]
   },
   {
