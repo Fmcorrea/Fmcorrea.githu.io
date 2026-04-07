@@ -66,7 +66,7 @@ const LEVELS_DATA = [
     question: "Aberto ou Fechado?",
     pairs: [
       { word: "ABERTO", targetId: "aberto", image: "livro aberto.jpg" },
-      { word: "FECHADO", targetId: "fechado", image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80" }
+      { word: "FECHADO", targetId: "fechado", image: "livro fechado.jpg" }
     ]
   }
 ];
