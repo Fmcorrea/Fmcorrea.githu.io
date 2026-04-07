@@ -66,7 +66,7 @@ const LEVELS_DATA = [
     id: 7,
     question: "Aberto ou Fechado?",
     pairs: [
-      { word: "ABERTO", targetId: "aberto", image: "livro aberto.jpg" },
+      { word: "ABERTO", targetId: "aberto", image: "aberto.jpeg" },
       { word: "FECHADO", targetId: "fechado", image: "livro fechado.jpg" }
     ]
   }
