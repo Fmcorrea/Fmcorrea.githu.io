@@ -7,7 +7,7 @@ import ImageDropZone from '@/components/ImageDropZone';
 import GameHeader from '@/components/GameHeader';
 import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
-import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX } from 'lucide-react';
+import { Sparkles, RefreshCcw, Trophy, Volume2, VolumeX, Play } from 'lucide-react';
 import { useAudio } from '@/hooks/useAudio';
 
 const LEVELS_DATA = [
@@ -140,7 +140,7 @@ const Index = () => {
   const [currentLevelIdx, setCurrentLevelIdx] = useState(0);
   const [assignments, setAssignments] = useState<Record<string, string | null>>({});
   const [dropZones, setDropZones] = useState<Record<string, DOMRect>>({});
-  const [gameState, setGameState] = useState<'playing' | 'finished'>('playing');
+  const [gameState, setGameState] = useState<'start' | 'playing' | 'finished'>('start');
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -163,8 +163,12 @@ const Index = () => {
     setDropZones(prev => ({ ...prev, [id]: rect }));
   }, []);
 
+  const startGame = () => {
+    setGameState('playing');
+    playBg();
+  };
+
   const handleDragEnd = (word: string, info: any) => {
-    playBg(); // Tenta iniciar a música no primeiro gesto
     const dropPoint = { x: info.point.x, y: info.point.y };
     
     let foundTarget = null;
@@ -226,7 +230,23 @@ const Index = () => {
     playBg();
   };
 
-  if (!currentLevel) return null;
+  if (gameState === 'start') {
+    return (
+      <div className="min-h-screen bg-sky-50 flex flex-col items-center justify-center p-6 text-center">
+        <div className="bg-white p-12 rounded-[40px] shadow-2xl border-8 border-blue-400 max-w-md w-full animate-in zoom-in duration-500">
+          <Sparkles className="w-24 h-24 text-yellow-400 mx-auto mb-6" />
+          <h1 className="text-4xl font-black text-slate-800 mb-4">Jogo dos Opostos</h1>
+          <p className="text-xl text-slate-600 mb-8 font-bold">Estás pronto para aprender a brincar?</p>
+          <Button 
+            onClick={startGame}
+            className="w-full py-8 text-2xl font-black rounded-2xl bg-blue-500 hover:bg-blue-600 shadow-lg"
+          >
+            <Play className="mr-3 fill-current" /> COMEÇAR
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (gameState === 'finished') {
     return (
@@ -247,10 +267,11 @@ const Index = () => {
     );
   }
 
+  if (!currentLevel) return null;
+
   return (
     <div className="min-h-screen bg-sky-50 py-8 px-4 flex flex-col items-center overflow-hidden">
       <div className="max-w-4xl w-full relative">
-        {/* Botão de Som */}
         <button 
           onClick={toggleMute}
           className="absolute -top-4 right-4 p-3 bg-white rounded-full shadow-md hover:bg-slate-50 transition-colors z-50 border-2 border-slate-100"

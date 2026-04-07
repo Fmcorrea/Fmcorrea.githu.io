@@ -10,53 +10,45 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    const initAudio = (url: string, volume = 1, loop = false) => {
-      const audio = new Audio(url);
-      audio.volume = volume;
-      audio.loop = loop;
-      // Evita que erros de carregamento quebrem a aplicação
-      audio.addEventListener('error', (e) => {
-        console.warn("Não foi possível carregar o áudio:", url, e);
-      });
-      return audio;
-    };
+    // Inicialização simples
+    bgMusic.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"); // Link alternativo estável
+    bgMusic.current.loop = true;
+    bgMusic.current.volume = 0.2;
 
-    // Links atualizados e mais estáveis
-    bgMusic.current = initAudio("https://assets.mixkit.co/music/preview/mixkit-games-world-606.mp3", 0.3, true);
-    successSound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-winning-chime-2015.mp3", 0.5);
-    errorSound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-falling-hit-on-slender-wood-744.mp3", 0.4);
-    victorySound.current = initAudio("https://assets.mixkit.co/sfx/preview/mixkit-stadium-crowd-light-applause-524.mp3", 0.6);
+    successSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
+    errorSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flick.ogg");
+    victorySound.current = new Audio("https://actions.google.com/sounds/v1/human_voices/applause_clapping_and_cheering.ogg");
 
     return () => {
-      if (bgMusic.current) {
-        bgMusic.current.pause();
-        bgMusic.current.src = "";
-      }
+      bgMusic.current?.pause();
+      bgMusic.current = null;
     };
   }, []);
 
   const playBg = () => {
-    if (!isMuted && bgMusic.current && bgMusic.current.readyState >= 2) {
-      bgMusic.current.play().catch(() => {});
+    if (!isMuted && bgMusic.current) {
+      bgMusic.current.play().catch(() => {
+        console.log("Aguardando interação para tocar música.");
+      });
     }
   };
 
   const playSuccess = () => {
-    if (!isMuted && successSound.current && successSound.current.readyState >= 2) {
+    if (!isMuted && successSound.current) {
       successSound.current.currentTime = 0;
       successSound.current.play().catch(() => {});
     }
   };
 
   const playError = () => {
-    if (!isMuted && errorSound.current && errorSound.current.readyState >= 2) {
+    if (!isMuted && errorSound.current) {
       errorSound.current.currentTime = 0;
       errorSound.current.play().catch(() => {});
     }
   };
 
   const playVictory = () => {
-    if (!isMuted && victorySound.current && victorySound.current.readyState >= 2) {
+    if (!isMuted && victorySound.current) {
       bgMusic.current?.pause();
       victorySound.current.play().catch(() => {});
     }
@@ -68,7 +60,7 @@ export const useAudio = () => {
     if (newMuted) {
       bgMusic.current?.pause();
     } else {
-      playBg();
+      bgMusic.current?.play().catch(() => {});
     }
   };
 
