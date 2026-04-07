@@ -10,10 +10,10 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    // Música de fundo estilo "joguinho simples"
-    bgMusic.current = new Audio("https://cdn.pixabay.com/audio/2021/11/23/audio_0998a81308.mp3");
+    // Nova música de fundo: Happy Arcade/Game style
+    bgMusic.current = new Audio("https://cdn.pixabay.com/audio/2024/05/04/audio_74307d8843.mp3");
     bgMusic.current.loop = true;
-    bgMusic.current.volume = 0.2;
+    bgMusic.current.volume = 0.5; // Volume aumentado
 
     successSound.current = new Audio("https://cdn.pixabay.com/audio/2021/08/04/audio_0625c1539c.mp3");
     errorSound.current = new Audio("https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73484.mp3");
@@ -25,33 +25,38 @@ export const useAudio = () => {
   }, []);
 
   const playBg = () => {
-    if (!isMuted) bgMusic.current?.play().catch(() => {});
+    if (!isMuted && bgMusic.current) {
+      bgMusic.current.play().catch((error) => {
+        console.log("Autoplay bloqueado pelo navegador. Aguardando interação.", error);
+      });
+    }
   };
 
   const playSuccess = () => {
-    if (!isMuted) {
-      successSound.current!.currentTime = 0;
-      successSound.current?.play();
+    if (!isMuted && successSound.current) {
+      successSound.current.currentTime = 0;
+      successSound.current.play();
     }
   };
 
   const playError = () => {
-    if (!isMuted) {
-      errorSound.current!.currentTime = 0;
-      errorSound.current?.play();
+    if (!isMuted && errorSound.current) {
+      errorSound.current.currentTime = 0;
+      errorSound.current.play();
     }
   };
 
   const playVictory = () => {
-    if (!isMuted) {
+    if (!isMuted && victorySound.current) {
       bgMusic.current?.pause();
-      victorySound.current?.play();
+      victorySound.current.play();
     }
   };
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (!isMuted) {
+    const newMuted = !isMuted;
+    setIsMuted(newMuted);
+    if (newMuted) {
       bgMusic.current?.pause();
     } else {
       bgMusic.current?.play().catch(() => {});
