@@ -10,18 +10,21 @@ export const useAudio = () => {
   const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
-    // Inicialização simples
-    bgMusic.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"); // Link alternativo estável
+    // Música de fundo: Estilo infantil, alegre e saltitante
+    bgMusic.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3");
     bgMusic.current.loop = true;
-    bgMusic.current.volume = 0.2;
+    bgMusic.current.volume = 0.15;
 
+    // Efeitos sonoros divertidos
     successSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/pop.ogg");
     errorSound.current = new Audio("https://actions.google.com/sounds/v1/cartoon/wood_plank_flick.ogg");
     victorySound.current = new Audio("https://actions.google.com/sounds/v1/human_voices/applause_clapping_and_cheering.ogg");
 
     return () => {
-      bgMusic.current?.pause();
-      bgMusic.current = null;
+      if (bgMusic.current) {
+        bgMusic.current.pause();
+        bgMusic.current = null;
+      }
     };
   }, []);
 
