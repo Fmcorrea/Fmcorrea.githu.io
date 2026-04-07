@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import confetti from 'canvas-confetti';
 import GameCard from '@/components/GameCard';
 import GameHeader from '@/components/GameHeader';
@@ -8,22 +8,22 @@ import { Button } from '@/components/ui/button';
 import { showSuccess, showError } from '@/utils/toast';
 import { Sparkles, RefreshCcw, Trophy } from 'lucide-react';
 
-// Definição dos níveis do jogo
+// Definição dos níveis do jogo com as imagens enviadas
 const LEVELS = [
   {
     id: 1,
-    question: "Qual xícara está CHEIA?",
+    question: "Qual copo está CHEIO?",
     correctAnswer: "cheio",
     options: [
       { 
         id: "vazio", 
         label: "Vazio", 
-        image: "https://images.unsplash.com/photo-1517142089942-ba376ce32a2e?q=80&w=1000&auto=format&fit=crop" // Placeholder para a imagem 1 (vazia)
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/5e4ec9e7d27791fba3d61f4f40d0c60e.png" 
       },
       { 
         id: "cheio", 
         label: "Cheio", 
-        image: "https://images.unsplash.com/photo-1544787210-2827448b303c?q=80&w=1000&auto=format&fit=crop" // Placeholder para a imagem 2 (cheia)
+        image: "dyad-media://media/peaceful-shiba-flip/.dyad/media/590251b5c6986ab4865abfb4c63fdfae.png" 
       }
     ]
   }
@@ -46,10 +46,10 @@ const Index = () => {
       setGameState('correct');
       setScore(prev => prev + 10);
       confetti({
-        particleCount: 100,
+        particleCount: 150,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#60A5FA', '#A78BFA', '#F472B6']
+        colors: ['#60A5FA', '#A78BFA', '#F472B6', '#FBBF24']
       });
       showSuccess("Muito bem! Você acertou!");
     } else {
